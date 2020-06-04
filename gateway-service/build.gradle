@@ -39,6 +39,7 @@ dependencyManagement {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.cloud:spring-cloud-starter-gateway'
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 	implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
@@ -55,4 +56,11 @@ test {
 
 processResources {
 	["banner.txt"].each { filesMatching(it) { filter ReplaceTokens, tokens: ["app.version": rootProject.version] } }
+}
+
+jib {
+	to {
+		image = "docker.pkg.github.com/lhaidacher/spring-boot-booking-system/" + project.name
+		tags = [project.version]
+	}
 }

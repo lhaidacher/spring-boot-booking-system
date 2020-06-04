@@ -54,3 +54,10 @@ test {
 processResources {
 	["banner.txt"].each { filesMatching(it) { filter ReplaceTokens, tokens: ["app.version": rootProject.version] } }
 }
+
+jib {
+	to {
+		image = "docker.pkg.github.com/lhaidacher/spring-boot-booking-system/" + project.name
+		tags = [project.version]
+	}
+}

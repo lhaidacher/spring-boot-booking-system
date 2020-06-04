@@ -17,6 +17,11 @@ spring:
       bindings:
         bookings:
           destination: bookings-exchange
+  zipkin:
+    base-url: ${ZIPKIN_URI:http://localhost:9411/}
 eureka:
   instance:
     instance-id: ${random.value}
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}

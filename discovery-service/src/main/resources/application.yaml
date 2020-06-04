@@ -6,6 +6,8 @@ server:
 spring:
   application:
     name: discovery-service
+  zipkin:
+    base-url: ${ZIPKIN_URI:http://localhost:9411/}
 eureka:
   client:
     registerWithEureka: false

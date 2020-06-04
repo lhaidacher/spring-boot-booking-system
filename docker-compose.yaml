@@ -1,6 +1,82 @@
 version: '3'
 
 services:
+  discovery-service:
+    container_name: discovery-service
+    image: "docker.pkg.github.com/lhaidacher/spring-boot-booking-system/discovery-service:1.0.0"
+    restart: always
+    ports:
+      - 8761:8761
+    environment:
+      ZIPKIN_URI: http://jaeger:9411
+    depends_on:
+      - jaeger
+  gateway-service:
+    container_name: gateway-service
+    image: "docker.pkg.github.com/lhaidacher/spring-boot-booking-system/gateway-service:1.0.0"
+    restart: always
+    ports:
+      - 8080:8080
+    environment:
+      EUREKA_URI: http://discovery-service:8761/eureka
+      ZIPKIN_URI: http://jaeger:9411
+    depends_on:
+      - discovery-service
+      - jaeger
+  import-service-node1:
+    container_name: import-service-node1
+    image: "docker.pkg.github.com/lhaidacher/spring-boot-booking-system/import-service:1.0.0"
+    restart: always
+    environment:
+      SPRING_RABBITMQ_HOST: rabbitmq
+      EUREKA_URI: http://discovery-service:8761/eureka
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/postgres
+      ZIPKIN_URI: http://jaeger:9411
+    depends_on:
+      - rabbitmq
+      - discovery-service
+      - jaeger
+      - postgres
+  import-service-node2:
+    container_name: import-service-node2
+    image: "docker.pkg.github.com/lhaidacher/spring-boot-booking-system/import-service:1.0.0"
+    restart: always
+    environment:
+      SPRING_RABBITMQ_HOST: rabbitmq
+      EUREKA_URI: http://discovery-service:8761/eureka
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/postgres
+      ZIPKIN_URI: http://jaeger:9411
+    depends_on:
+      - rabbitmq
+      - discovery-service
+      - jaeger
+      - postgres
+  import-service-node3:
+    container_name: import-service-node3
+    image: "docker.pkg.github.com/lhaidacher/spring-boot-booking-system/import-service:1.0.0"
+    restart: always
+    environment:
+      SPRING_RABBITMQ_HOST: rabbitmq
+      EUREKA_URI: http://discovery-service:8761/eureka
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/postgres
+      ZIPKIN_URI: http://jaeger:9411
+    depends_on:
+      - rabbitmq
+      - discovery-service
+      - jaeger
+      - postgres
+  consumer-service:
+    container_name: consumer-service
+    image: "docker.pkg.github.com/lhaidacher/spring-boot-booking-system/consumer-service:1.0.0"
+    restart: always
+    environment:
+      SPRING_RABBITMQ_HOST: rabbitmq
+      EUREKA_URI: http://discovery-service:8761/eureka
+      ZIPKIN_URI: http://jaeger:9411
+    depends_on:
+      - rabbitmq
+      - discovery-service
+      - jaeger
   postgres:
     container_name: Postgres
     image: "postgres:10"
