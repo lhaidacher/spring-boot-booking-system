@@ -1,0 +1,22 @@
+# ===================================================================
+# APPLICATION PROPERTIES
+# ===================================================================
+server:
+  port: 0
+spring:
+  application:
+    name: import-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+  flyway:
+    enabled: true
+    schemas: import_service
+  cloud:
+    stream:
+      bindings:
+        bookings:
+          destination: bookings-exchange
+eureka:
+  instance:
+    instance-id: ${random.value}

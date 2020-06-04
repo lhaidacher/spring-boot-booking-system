@@ -1,0 +1,20 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: import-service
+          uri: lb://import-service
+          predicates:
+            - Path=/bookings/**
+          filters:
+            - RewritePath=/bookings/(?<path>.*), /$\{path}
+eureka:
+  instance:
+    instance-id: ${random.value}
