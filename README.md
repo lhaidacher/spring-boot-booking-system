@@ -21,8 +21,32 @@ The application consists of several services and technical solutions.
 <img src="https://github.com/lhaidacher/spring-boot-booking-system/blob/master/files/images/architecture.png?raw=true" alt="Architecture" width="600px">
 
 ## Usage
-To start the application, use following commands.
+To start the application, use following commands. The docker-compose file starts following applications:
+- 1x **rabbitmq** as messaging-system accessible via localhost:15672 (guest/guest)
+- 1x **postgresql** as database-system
+- 1x **jaeger** for log-tracing accessible via localhost:16686
+- 1x **discovery-service** accessible via localhost:8761
+- 1x **gateway-service** (example can be seen below)
+- 1x **consumer-service**
+- 3x **import-service**
 
 ```bat
 docker-compose up
+```
+
+Initial example request: POST localhost:8080
+
+```json
+{
+  "reference": "jn23-123-1"
+}
+```
+
+Example request with above's example as parent: POST localhost:8080
+
+```json
+{
+  "reference": "ad2-w123",
+  "parentReference": "jn23-123-1"
+}
 ```
