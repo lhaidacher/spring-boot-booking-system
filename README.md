@@ -34,7 +34,7 @@ To start the application, use following commands. The docker-compose file starts
 docker-compose up
 ```
 
-Initial example request: POST localhost:8080
+Initial example request: POST localhost:8080/bookings/
 
 ```json
 {
@@ -42,7 +42,7 @@ Initial example request: POST localhost:8080
 }
 ```
 
-Example request with above's example as parent: POST localhost:8080
+Example request with above's example as parent: POST localhost:8080/bookings/
 
 ```json
 {
